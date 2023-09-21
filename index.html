@@ -20,6 +20,13 @@
         th {
             background-color: #f2f2f2;
         }
+
+        /* Style for the search input */
+        #searchInput {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -63,11 +70,13 @@
                 // Populate the table with data rows
                 for (let i = 1; i < rows.length; i++) {
                     const values = rows[i].split(',');
-                    const row = datasetTable.insertRow(-1); // Append row to table
+                    const row = document.createElement("tr"); // Create a new row
                     values.forEach(value => {
-                        const cell = row.insertCell(-1); // Append cell to row
+                        const cell = document.createElement("td"); // Create a new cell
                         cell.textContent = value;
+                        row.appendChild(cell); // Append cell to row
                     });
+                    tableBody.appendChild(row); // Append row to table body
                 }
 
                 // Add an event listener to the search input for filtering rows
