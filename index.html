@@ -23,15 +23,28 @@
 
         /* Style for the search input */
         #searchInput {
-            width: 100%;
+            width: 70%;
             padding: 10px;
+            margin-top: 10px;
+        }
+
+        /* Style for the search button */
+        #searchButton {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
             margin-top: 10px;
         }
     </style>
 </head>
 <body>
-    <!-- Search input -->
+    <!-- Search input and button -->
     <input type="text" id="searchInput" placeholder="Search...">
+    <button id="searchButton">Search</button>
 
     <!-- Table for the dataset -->
     <table id="datasetTable">
@@ -51,6 +64,7 @@
         const headerRow = document.getElementById("headerRow");
         const tableBody = document.getElementById("tableBody");
         const searchInput = document.getElementById("searchInput");
+        const searchButton = document.getElementById("searchButton");
 
         // Fetch the dataset CSV file from your GitHub repository
         fetch('https://raw.githubusercontent.com/satvik-vs/WaterQualityIndex/main/sih_water_data_mi222.csv')
@@ -79,8 +93,8 @@
                     tableBody.appendChild(row); // Append row to table body
                 }
 
-                // Add an event listener to the search input for filtering rows
-                searchInput.addEventListener("input", () => {
+                // Add an event listener to the search button for filtering rows
+                searchButton.addEventListener("click", () => {
                     const searchTerm = searchInput.value.toLowerCase();
                     const rows = tableBody.getElementsByTagName("tr");
                     for (let i = 0; i < rows.length; i++) {
