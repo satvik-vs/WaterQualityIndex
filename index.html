@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dataset Display</title>
+</head>
+<body>
+    <ul id="datasetList"></ul>
+
+    <!-- JavaScript to fetch and display the dataset -->
+    <script>
+        const datasetList = document.getElementById("datasetList");
+
+        // Fetch the dataset CSV file from your GitHub repository
+        fetch('https://raw.githubusercontent.com/yourusername/yourrepository/master/yourdataset.csv')
+            .then(response => response.text())
+            .then(data => {
+                // Parse the CSV data into an array of rows
+                const rows = data.split('\n');
+                const headers = rows[0].split(',');
+
+                // Create a list item for each row and display it
+                for (let i = 1; i < rows.length; i++) {
+                    const values = rows[i].split(',');
+                    const listItem = document.createElement("li");
+                    listItem.textContent = values.join(', '); // Display the entire row
+                    datasetList.appendChild(listItem);
+                }
+            })
+            .catch(error => console.error('Error fetching dataset:', error));
+    </script>
+</body>
+</html>
