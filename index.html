@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dataset Table</title>
+    <title>Dataset Table with Search</title>
     <style>
         /* CSS for table styling */
         table {
@@ -23,21 +23,27 @@
     </style>
 </head>
 <body>
+    <!-- Search input -->
+    <input type="text" id="searchInput" placeholder="Search...">
+
+    <!-- Table for the dataset -->
     <table id="datasetTable">
         <thead>
             <tr id="headerRow">
                 <!-- Header columns will be populated dynamically -->
             </tr>
         </thead>
-        <tbody>
+        <tbody id="tableBody">
             <!-- Data rows will be populated dynamically -->
         </tbody>
     </table>
 
-    <!-- JavaScript to fetch and display the dataset -->
+    <!-- JavaScript to fetch and display the dataset, and handle search -->
     <script>
         const datasetTable = document.getElementById("datasetTable");
         const headerRow = document.getElementById("headerRow");
+        const tableBody = document.getElementById("tableBody");
+        const searchInput = document.getElementById("searchInput");
 
         // Fetch the dataset CSV file from your GitHub repository
         fetch('https://raw.githubusercontent.com/satvik-vs/WaterQualityIndex/main/sih_water_data_mi222.csv')
@@ -63,6 +69,23 @@
                         cell.textContent = value;
                     });
                 }
+
+                // Add an event listener to the search input for filtering rows
+                searchInput.addEventListener("input", () => {
+                    const searchTerm = searchInput.value.toLowerCase();
+                    const rows = tableBody.getElementsByTagName("tr");
+                    for (let i = 0; i < rows.length; i++) {
+                        const cells = rows[i].getElementsByTagName("td");
+                        let rowMatch = false;
+                        for (let j = 0; j < cells.length; j++) {
+                            if (cells[j].textContent.toLowerCase().includes(searchTerm)) {
+                                rowMatch = true;
+                                break;
+                            }
+                        }
+                        rows[i].style.display = rowMatch ? "" : "none";
+                    }
+                });
             })
             .catch(error => console.error('Error fetching dataset:', error));
     </script>
