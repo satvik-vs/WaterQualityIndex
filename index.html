@@ -3,14 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dataset Display</title>
+    <title>Dataset Table</title>
+    <style>
+        /* CSS for table styling */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
-    <ul id="datasetList"></ul>
+    <table id="datasetTable">
+        <thead>
+            <tr id="headerRow">
+                <!-- Header columns will be populated dynamically -->
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data rows will be populated dynamically -->
+        </tbody>
+    </table>
 
     <!-- JavaScript to fetch and display the dataset -->
     <script>
-        const datasetList = document.getElementById("datasetList");
+        const datasetTable = document.getElementById("datasetTable");
+        const headerRow = document.getElementById("headerRow");
 
         // Fetch the dataset CSV file from your GitHub repository
         fetch('https://raw.githubusercontent.com/satvik-vs/WaterQualityIndex/main/sih_water_data_mi222.csv')
@@ -20,12 +47,21 @@
                 const rows = data.split('\n');
                 const headers = rows[0].split(',');
 
-                // Create a list item for each row and display it
+                // Create header cells
+                headers.forEach(headerText => {
+                    const th = document.createElement("th");
+                    th.textContent = headerText;
+                    headerRow.appendChild(th);
+                });
+
+                // Populate the table with data rows
                 for (let i = 1; i < rows.length; i++) {
                     const values = rows[i].split(',');
-                    const listItem = document.createElement("li");
-                    listItem.textContent = values.join(', '); // Display the entire row
-                    datasetList.appendChild(listItem);
+                    const row = datasetTable.insertRow(-1); // Append row to table
+                    values.forEach(value => {
+                        const cell = row.insertCell(-1); // Append cell to row
+                        cell.textContent = value;
+                    });
                 }
             })
             .catch(error => console.error('Error fetching dataset:', error));
