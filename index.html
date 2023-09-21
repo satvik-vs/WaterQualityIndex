@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dataset Table with Search</title>
+    <title>Transposed Dataset Table with Search</title>
     <style>
         /* CSS for table styling */
         table {
@@ -46,22 +46,19 @@
     <input type="text" id="searchInput" placeholder="Search...">
     <button id="searchButton">Search</button>
 
-    <!-- Table for the dataset -->
-    <table id="datasetTable">
+    <!-- Table for the transposed dataset -->
+    <table id="transposedTable">
         <thead>
-            <tr id="headerRow">
-                <!-- Header columns will be populated dynamically -->
-            </tr>
+            <!-- Header columns will be populated dynamically -->
         </thead>
         <tbody id="tableBody">
             <!-- Data rows will be populated dynamically -->
         </tbody>
     </table>
 
-    <!-- JavaScript to fetch and display the dataset, and handle search -->
+    <!-- JavaScript to fetch and display the dataset, transpose it, and handle search -->
     <script>
-        const datasetTable = document.getElementById("datasetTable");
-        const headerRow = document.getElementById("headerRow");
+        const transposedTable = document.getElementById("transposedTable");
         const tableBody = document.getElementById("tableBody");
         const searchInput = document.getElementById("searchInput");
         const searchButton = document.getElementById("searchButton");
@@ -75,15 +72,16 @@
                 const headers = rows[0].split(',');
 
                 // Create header cells
+                const headerRow = transposedTable.getElementsByTagName("thead")[0].insertRow(0);
                 headers.forEach(headerText => {
                     const th = document.createElement("th");
                     th.textContent = headerText;
                     headerRow.appendChild(th);
                 });
 
-                // Populate the table with data rows
-                for (let i = 1; i < rows.length; i++) {
-                    const values = rows[i].split(',');
+                // Populate the table with data columns (transpose the dataset)
+                for (let i = 0; i < headers.length; i++) {
+                    const values = rows.slice(1).map(row => row.split(',')[i]);
                     const row = document.createElement("tr"); // Create a new row
                     values.forEach(value => {
                         const cell = document.createElement("td"); // Create a new cell
